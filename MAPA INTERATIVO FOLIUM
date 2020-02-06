@@ -2,38 +2,46 @@ import folium
 import branca
 import pandas as pd
 
-html = """
-    <h3> Estação VIDIGAL</h1><br>
-    Velocidade do Vento = 5.75208\n
-    Direção do Vento = 360° (NORTE)
-    <p>
-    <code>
-        Fonte: ALerta Rio<br>
-    </code>
-    </p>
-    """
-
 m = folium.Map(
     location=[-22.805719, -43.142799],
     zoom_start=11,
     tiles='Stamen Terrain'
 )
 
-tooltip = 'Clique para mais informações'
+tooltip_vidigal = 'ESTAÇÃO VIDIGAL'
+tooltip_jardimbotanico = "ESTAÇÃO JARDIM BOTÂNICO"
+tooltip_ilha = "ESTAÇÃO ILHA DO GOVERNADOR"
+tooltip_urca = "ESTAÇÃO URCA"
 
-df = pd.DataFrame(data=[['29.4°C', '79%'], ['NULL', 'NULL']], columns=['TEMPERATURA', 'UMIDADE',])
+df_ur = pd.DataFrame(data={"TEMPERATURA": ['29.4°C'],
+                    "UMIDADE": ['79%']}, index = ["→"])
+grade_ur = df_ur.to_html(classes='table table-striped table-hover table-condensed table-responsive')
+balao_ur = folium.Popup(grade_ur)
 
-grade = df.to_html(classes='table table-striped table-hover table-condensed table-responsive')
+df_ig = pd.DataFrame(data={"TEMPERATURA": ['29.4°C'],
+                    "UMIDADE": ['79%']}, index = ["→"])
+grade_ig = df_ig.to_html(classes='table table-striped table-hover table-condensed table-responsive')
+balao_ig = folium.Popup(grade_ig)
 
-balao = folium.Popup(grade)
+df_jb = pd.DataFrame(data={"TEMPERATURA": ['29.4°C'],
+                    "UMIDADE": ['79%']}, index = ["→"])
+grade_jb = df_jb.to_html(classes='table table-striped table-hover table-condensed table-responsive')
+balao_jb = folium.Popup(grade_jb)
 
-folium.Marker([-22.9925, -43.233056], popup=html, tooltip=tooltip).add_to(m)
+df_vd = pd.DataFrame(data={"TEMPERATURA": ['29.4°C'],
+                    "UMIDADE": ['79%']}, index = ["→"])
+grade_vd = df_vd.to_html(classes='table table-striped table-hover table-condensed table-responsive')
+balao_vd = folium.Popup(grade_vd)
 
-folium.Marker([-22.972778, -43.223889], popup=balao, tooltip=tooltip).add_to(m)
+folium.Marker([-22.955833, -43.166667], popup=balao_ur, tooltip=tooltip_urca, icon=folium.Icon(color='lightblue', icon_color='white',icon='cloud')).add_to(m) #CHUVA LEVE
+folium.Marker([-22.818056, -43.210278], popup=balao_ig, tooltip=tooltip_ilha, icon=folium.Icon(color='blue', icon_color='white',icon='cloud')).add_to(m) #CHUVA MODERADA
+folium.Marker([-22.972778, -43.223889], popup=balao_jb, tooltip=tooltip_jardimbotanico, icon=folium.Icon(color='darkblue', icon_color='white',icon='cloud')).add_to(m) #CHUVA FORTE
+folium.Marker([-22.9925, -43.233056], popup=balao_vd, tooltip=tooltip_vidigal, icon=folium.Icon(color='cadetblue', icon_color='white',icon='cloud')).add_to(m) #TEMPESTADE
 
 
 m
 
-m.save(r'C:\Users\Administrator\Desktop\mapas\index.html')
+m.save(r'C:\Users\ire0052\Desktop\mapas\index.html') #"C:\Users\ire0052\Desktop\mapas\New folder"
+
 
 
