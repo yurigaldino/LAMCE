@@ -1,0 +1,39 @@
+import folium
+import branca
+import pandas as pd
+
+html = """
+    <h3> Estação VIDIGAL</h1><br>
+    Velocidade do Vento = 5.75208\n
+    Direção do Vento = 360° (NORTE)
+    <p>
+    <code>
+        Fonte: ALerta Rio<br>
+    </code>
+    </p>
+    """
+
+m = folium.Map(
+    location=[-22.805719, -43.142799],
+    zoom_start=11,
+    tiles='Stamen Terrain'
+)
+
+tooltip = 'Clique para mais informações'
+
+df = pd.DataFrame(data=[['29.4°C', '79%'], ['NULL', 'NULL']], columns=['TEMPERATURA', 'UMIDADE',])
+
+grade = df.to_html(classes='table table-striped table-hover table-condensed table-responsive')
+
+balao = folium.Popup(grade)
+
+folium.Marker([-22.9925, -43.233056], popup=html, tooltip=tooltip).add_to(m)
+
+folium.Marker([-22.972778, -43.223889], popup=balao, tooltip=tooltip).add_to(m)
+
+
+m
+
+m.save(r'C:\Users\Administrator\Desktop\mapas\index.html')
+
+
