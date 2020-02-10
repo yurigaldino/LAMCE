@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 10 14:57:07 2020
+
+@author: Yuri Galdino
+"""
+
+import folium
+import pandas as pd
+
+file = open(r"C:\Users\Administrator\Desktop\mapas\Dados_Estacao_Meteorologica.txt")
+for i in file:
+    valores = i.split()
+
+date = valores[0]
+time = valores[1]
+temp_out = valores[2]
+wind_speed = valores[7]
+wind_dir = valores[8]
+rain =valores[16]
+
+
+m = folium.Map(
+    location=[-22.805719, -43.142799],
+    zoom_start=11,
+    tiles='Stamen Terrain'
+)
+
+
+tooltip_ilha = "ESTAÇÃO LAMCE"
+
+df_ig = pd.DataFrame(data={"TEMPERATURA": [temp_out],
+                    "CHUVA": [rain]}, index = ["→"])
+grade_ig = df_ig.to_html(classes='table table-striped table-hover table-condensed table-responsive')
+balao_ig = folium.Popup(grade_ig)
+
+folium.Marker([-22.863633, -43.215037], popup=balao_ig, tooltip=tooltip_ilha, icon=folium.Icon(color='blue', icon_color='white',icon='cloud')).add_to(m) #CHUVA MODERADA
+
+#file.close()
+
+m
+
+m.save(r"C:\Users\Administrator\Desktop\mapas\index.html") #"C:\Users\ire0052\Desktop\mapas\New folder"
